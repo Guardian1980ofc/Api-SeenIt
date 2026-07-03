@@ -1,14 +1,13 @@
-from django.urls import path, include
+from django.urls import path
 from rest_framework.routers import DefaultRouter
-from .viewsets import UserViewSet, UserListViewSet, ListItemViewSet, ReviewViewSet
+from .viewsets import UserViewSet, UserListViewSet, ListItemViewSet, ReviewViewSet, MovieSearchView
 
 router = DefaultRouter()
+router.register('users', UserViewSet)
+router.register('lists', UserListViewSet)
+router.register('items', ListItemViewSet)
+router.register('reviews', ReviewViewSet)
 
-router.register(r'users', UserViewSet, basename='user')
-router.register(r'lists', UserListViewSet, basename='userlist')
-router.register(r'items', ListItemViewSet, basename='listitem')
-router.register(r'reviews', ReviewViewSet, basename='review')
-
-urlpatterns = [
-    path('', include(router.urls)),
+urlpatterns = router.urls + [
+    path('movies/search/', MovieSearchView.as_view(), name='movie-search'),
 ]
